@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/Blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/Blog/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/Blog/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/Blog/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/Blog/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/Blog/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/Blog/',
+    scheme: 'Muse',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="C++暴露给蓝图可编辑 UCLASS(Blueprintable) 创建FString FString::Printf(TEXT(“aa bb”)); 蓝图调用变量 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) ) 限制条件范围 meta = (ClampMin=0.1,ClampMax = 100) 蓝图识别组件">
+<meta name="keywords" content="UE4_API">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE4新手常用C++API">
+<meta property="og:url" content="http://ningstudio.cn/Blog/2019/04/12/ue4-api/index.html">
+<meta property="og:site_name" content="NingStudio">
+<meta property="og:description" content="C++暴露给蓝图可编辑 UCLASS(Blueprintable) 创建FString FString::Printf(TEXT(“aa bb”)); 蓝图调用变量 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) ) 限制条件范围 meta = (ClampMin=0.1,ClampMax = 100) 蓝图识别组件">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-12T09:48:29.343Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UE4新手常用C++API">
+<meta name="twitter:description" content="C++暴露给蓝图可编辑 UCLASS(Blueprintable) 创建FString FString::Printf(TEXT(“aa bb”)); 蓝图调用变量 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) ) 限制条件范围 meta = (ClampMin=0.1,ClampMax = 100) 蓝图识别组件">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://ningstudio.cn/Blog/2019/04/12/ue4-api/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>UE4新手常用C++API | NingStudio</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/Blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">NingStudio</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">围绕数字产品与空间，发掘业务的差异化价值</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Navigationsleiste an/ausschalten">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Blog/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Startseite</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/Blog/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archiv</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ningstudio.cn/Blog/Blog/2019/04/12/ue4-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ning+">
+      <meta itemprop="description" content="NingStudio Blog">
+      <meta itemprop="image" content="/Blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NingStudio">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UE4新手常用C++API
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Erstellt: 2019-04-12 17:46:00 / Geändert am: 17:48:29" itemprop="dateCreated datePublished" datetime="2019-04-12T17:46:00+08:00">2019-04-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/Blog/categories/UE4-C/" itemprop="url" rel="index"><span itemprop="name">UE4_C++</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>C++暴露给蓝图可编辑</p>
+<p>UCLASS(Blueprintable)</p>
+<p>创建FString</p>
+<p>FString::Printf(TEXT(“aa bb”));</p>
+<p>蓝图调用变量</p>
+<p>UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )</p>
+<p>限制条件范围</p>
+<p>meta = (ClampMin=0.1,ClampMax = 100)</p>
+<p>蓝图识别组件</p>
+<p>UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = “XXX”)</p>
+<p>返回物理材质</p>
+<p>EPhysicalSurface SurfaceType = UPhysicalMaterial::DetermineSurfaceType(Hit.PhysMaterial.Get());</p>
+<p>开放给编辑器时删选类型，而不是某一个引用</p>
+<p>TSubClassOf</p>
+<p>蓝图调用函数<br>UFUNCTION(BlueprintCallable, Category = “XXX”)</p>
+<p>设置子Actor</p>
+<p>HandObject-&gt;SetChildActorClass(ASlAiHandObject::StaticClass());</p>
+<p>继承父类<br>Super::Xxx();  </p>
+<p>获取组件</p>
+<p>GetComponentByClass(UXXXComponent::StaticClass());</p>
+<p>调整Tick间隔为1秒</p>
+<p>PrimaryActorTick.TickInterval = 1.0f;</p>
+<p>循环输出ForEachLoop   FStringaa </p>
+<p>for(FString xx : FStringaa){}</p>
+<p>设置鼠标点击输入模式（controlelr）</p>
+<p>FInputModeGameOnly InputMode;<br>InputMode.SetConsumeCaptureMouseDown(true);<br>SetInputMode(InputMode);</p>
+<p>碰撞体物理旋转锁定</p>
+<p>BoxCollision-&gt;GetBodyInstance()-&gt;bLockZRotation = true;</p>
+<p>播放音效</p>
+<p>UGameplayStatics::SpawnSoundAttached(soundcue,RootComponent);</p>
+<p>向量长度</p>
+<p>Fvector.size();</p>
+<p>例：void BeginDestroy() override;</p>
+<p>void AmyActor::BeginDestroy()<br>{<br>Super::BeginDestroy();<br>UE_LOG(LogTemp, Warning, TEXT(“Game exit!”));</p>
+<p>}</p>
+<p>C++调用蓝图函数</p>
+<p>首先创建C++为基类，蓝图继承后创建一个函数Test</p>
+<p>#include “OutputDevice.h”</p>
+<p>FString cmd = FString::Printf(TEXT(“BB CD”));</p>
+<p>//BB函数名，CD参数</p>
+<p>FOutputDeviceDebug device;<br>CallFunctionByNameWithArguments(*cmd, device, NULL, true);</p>
+<p>蓝图重载C++函数(可以在C++中其他位置调用一个目前没有任何功能的函数（事件），而该函数的具体实现交给蓝图实现)</p>
+<p>UFUNCTION(BlueprintImplementableEvent)       </p>
+<p>void OnTest(); </p>
+<p>在蓝图中Add Event，找到对应的函数名，创建后即可实现具体逻辑</p>
+<p>然后也可以在自己的C++代码中调用该方法</p>
+<p>void MyActor::OnPressed()<br>{<br>OnTest();<br>}</p>
+<p>蓝图添加默认的C++实现（C++在调用了SomeFunction()的地方先调用SomeFunction_Implementation的实现，但如果在蓝图中定义了SomeFunction事件（即使后面不连接任何内容），则会忽略C++中SomeFunction_Implementation中的实现，只采用蓝图中的实现）</p>
+<p>UFUNCTION(BlueprintNativeEvent, Category = “SomeCategory”)</p>
+<p> void SomeFunction();</p>
+<p>void AMyActor::SomeFunction_Implementation() </p>
+<p>{ </p>
+<p>UE_LOG(LogTemp, Warning, TEXT(“Implenetaion in C++”)); </p>
+<p>}</p>
+<p>loadstreamlevel的百分比调用</p>
+<p>GetAsyncLoadPercentage(PackageName)</p>
+<p>获取控制器</p>
+<p>UGameplayStatics::GetPlayerController(GWorld, 0)；(-&gt;GetWorld())</p>
+<p>获取默认蓝图类</p>
+<p>HUDClass = AXXXHUD::StaticClass();</p>
+<p>判断Actor是蓝图还是C++</p>
+<p>Actor-&gt;GetClass.IsNative();</p>
+<p>按键</p>
+<p>GetWorld()-&gt;GetFirstPlayerController()-&gt;WasInputKeyJustPressed(Key)<br>GetWorld()-&gt;GetFirstPlayerController()-&gt;WasInputKeyJustReleased(Key) </p>
+<p>确保内容存在，否则中断代码</p>
+<p>ensure(XX)</p>
+<p>鼠标在屏幕中的位置</p>
+<p>#include “Engine/GameEngine.h”</p>
+<p>#include “Engine/Engine.h”</p>
+<p>FVector2D MousePosition;</p>
+<p>GEngine-&gt;GameViewport-&gt;GetMousePosition(MousePosition);</p>
+<p>MousePosition=MousePosition/DPIScale;</p>
+<p>判断当前游戏运行模式</p>
+<p>GetWorld()-&gt;WorldType</p>
+<p>加载地图</p>
+<p>UGameplayStatics::OpenLevel(GetWorld(), *mapName);</p>
+<p>获取角色位置和方向</p>
+<p>GetWorld()-&gt;GetFirstPlayerController()-&gt;GetPlayerViewPoint(PawnLocation,PawnRotation);//面朝的方向</p>
+<p>当前帧</p>
+<p>#include “Engine/World.h”</p>
+<p>GetWorld()-&gt;DeltaTimeSeconds</p>
+<p>当前旋转量</p>
+<p>this-&gt;GetActorForwardVector().Rotation()</p>
+<p>单位向量</p>
+<p>PawnRotation.Vector();</p>
+<p>PawnVector.GetSafeNormal();</p>
+<p>获取速度</p>
+<p>auto ForwardSpeed = FVector::DotProduct(MoveVelocityNormal, AIForwardNormal);</p>
+<p>运行命令行<br>GetWorld()-&gt;GetFirstPlayerController()-&gt;ConsoleCommand(“quit”);<br>打印<br>GEngine-&gt;AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT(“%s”),*FString));</p>
+<p>#include “Misc/OutputDevice.h”<br>GLog-&gt;Logf(TEXT(“%s”), *Filepath);</p>
+<p>限制函数</p>
+<p>FMath::Clamp<float>(A1 + A2, 0.0, 1.0);<br>设置位置<br>SetActorLocation(FVector(0.0f, 0.0f, 250.0f));</float></p>
+<p>打开EXE</p>
+<p>FPlatformProcess::ExecProcess(*QQ, nullptr, nullptr, nullptr, nullptr);</p>
+<p>FPlatformProcess::CreateProc(*QQ, nullptr, true, false, false, nullptr, -1, nullptr, nullptr);</p>
+<p>MD5加密</p>
+<p>FMD5::HashAnsiString(TEXT(“someStuff”));</p>
+<p>hashi加密</p>
+<p>FString HashStringWithSHA1(const FString &amp;InString)<br>{<br>FSHAHash StringHash;<br>FSHA1::HashBuffer(TCHAR_TO_ANSI(*InString), InString.Len(), StringHash.Hash);<br>return StringHash.ToString();<br>}</p>
+<p>传一个Object蓝图<br>UPROPERTY(BlueprintReadWrite,EditAnywhere,Category = “XX”)<br>TSubclassOf<class skillhelperobject>SkillBlueprintHelperObject;<br>路径<br>结构体<br>USTRUCT(Blueprintable)<br>struct FAskWayDate<br>{<br>GENERATED_USTRUCT_BODY()</class></p>
+<p>//GENERATED_BODY()<br>public:<br>UPROPERTY(BlueprintReadWrite,EditAnywhere,Category = “XX”)<br>int OpCode;<br>UPROPERTY(BlueprintReadWrite,EditAnywhere,Category = “XX”)<br>TMap&lt;int, FString&gt; Parameters;<br>};<br>FString Str2 = FString::Printf(TEXT(“Texture2D’/Game/pan/Frame_%05d.Frame_%05d’”),textName)<br>查找场景中的Actor<br>AActor <em> AMyActor::FindActor(FString Actorname)<br>{<br>AActor</em> mActor = NULL;<br>if (GetWorld())<br>{<br>for (TActorIterator<aactor> It(GetWorld()); It; ++It)<br>{<br>AActor<em> xActor = </em>It;<br>if (xActor-&gt;GetName() == Actorname)<br>{<br>GEngine-&gt;AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT(“Get it”));<br>mActor = xActor;<br>break;<br>}<br>}<br>if (!mActor)<br>{<br>GEngine-&gt;AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT(“No Get it”));<br>}<br>return  mActor;<br>}<br>else<br>{<br>GEngine-&gt;AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT(“NO getworld”));<br>return nullptr;<br>}</aactor></p>
+<p>}</p>
+<p>查找场景中的Actor2</p>
+<p>#include “Kismet/GameplayStatics.h”</p>
+<p>TArray&lt;AActor*&gt; PlayerStarts;<br>UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PlayerStarts);</p>
+<p>设置暂停</p>
+<p>SetPause(true);</p>
+<p>绑定按键（PS：需要在Pawn或Character里）<br>void AMyActor::SetupPlayerInputComponent(class UInputComponent* InputComponent)<br>{<br>InputComponent-&gt;BindKey(EKeys::Z, IE_Released, this, &amp;AMyActor::OpenURL);<br>InputComponent-&gt;BindAction(“Grow”, IE_Released, this, &amp;AMyActor::OpenURL);//.bExecuteWhenPaused = true;在暂停是依旧能运行<br>InputComponent-&gt;BindAxis(“back”, this, &amp;AMyActor::OpenURL);<br>}<br>返回多个值，引用<br>void AMyActor::MoreReturn(FString&amp; A, bool&amp; B)<br>{</p>
+<p>}</p>
+<p>Udata-&gt;AddToRoot();//防止GC回收</p>
+<p>蓝图显示中文枚举类（VS文件-高级保存选项UTF-8格式）</p>
+<p>UENUM(BlueprintType)</p>
+<p>enum class EenumChinese :uint8<br>{<br>E_EN UMETA(DisplayName = “英文”),<br>E_CH UMETA(DisplayName = “中文”),<br>};<br>UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = “enumChinese”)<br>EenumChinese enumChinese;</p>
+<p>双选项枚举类<br>UENUM(BlueprintType)<br>enum class EMyEnum : uint8<br>{<br>BranchA,<br>BranchB,<br>};<br>UFUNCTION(BlueprintCallable, Category = “My|MyActor”, Meta = (ExpandEnumAsExecs = “Branches”))<br>void BranchFun(int32 Input, EMyEnum&amp; Branches);<br>void AMyActor::BranchFun(int32 Input, EMyEnum&amp; Branches)<br>{<br>if (Input == 1)<br>{<br>Branches = EMyEnum::BranchA;<br>}<br>else<br>{<br>Branches = EMyEnum::BranchB;<br>}<br>}</p>
+<p>循环迭代</p>
+<p>for (TArray&lt;USoundCue<em>&gt;::TIterator It(MenuAudioResource.Find(FString(“Sound”))-&gt;CreateIterator()); It; ++It)<br>        {<br>            (</em>It)-&gt;VolumeMultiplier = SoundVolume;<br>        }</p>
+<p>迭代controller</p>
+<p>for (FConstPlayerControllerIterator It = GetWorld()-&gt;GetPlayerControllerIterator(); It; It++){AXXPlayerController<em> PC = Cast<axxplayercontroller>(It-&gt;Get());}<br>LOG<br>UE_LOG(LogTemp, Warning, TEXT(“Info= %s”), </axxplayercontroller></em>t_str[i]);<br>DEFINE_LOG_CATEGORY(LogMySlate);<br>UE_LOG(LogMySlate, Warning, TEXT(“Found UObject named”));</p>
+<p>蓝图打印</p>
+<p>#include”MessageLog.h”</p>
+<p>FMessageLog(“DebugLog_FMessageLog”).Warning(FText::FromString(MyString));<br>生成类<br>TestObjectActor = GWorld-&gt;SpawnActor<aactor>(TestBlueprint);<br>UWorld<em> const World = GetWorld();<br>AActor</em> GridCube = World-&gt;SpawnActor<aactor>(GridCubeClass2, FVector(0.0f, 90.0f, 50.0f), FRotator(0.0f, 0.0f, 0.0f));<br>读取Texture2D<br>UTexture2D<em> texture22 = Cast<utexture2d>(StaticLoadObject(UTexture2D::StaticClass(), NULL, </utexture2d></em>(Path)));<br>获得名字</aactor></aactor></p>
+<p>Actor-&gt;GetName() == TEXT(“FloatActor_1”)</p>
+<p>获取相机</p>
+<p>GetWorld()-&gt;GetFirstPlayerController()-&gt;PlayerCameraManager</p>
+<p>强制转换<br>PTGameInstance = Cast<uptgameinstance>(World-&gt;GetGameInstance());</uptgameinstance></p>
+<p>设置碰撞类型<br>SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);</p>
+<p>设置碰撞属性</p>
+<p>SetCollisionProfileName(FName(“NoCollision”));</p>
+<p>设置碰撞属性<br>MeshFirst-&gt;SetCollisionObjectType(ECC_Pawn);<br>MeshFirst-&gt;SetCollisionEnabled(ECollisionEnabled::NoCollision);<br>MeshFirst-&gt;SetCollisionResponseToAllChannels(ECR_Ignore);<br>构造函数添加组件</p>
+<p>RootComponent = CreateDefaultSubobject<uscenecomponent>(TEXT(“Center”));</uscenecomponent></p>
+<p>动态创建UObject<br>UMyObject*NewObj=NewObject<umyobject>();</umyobject></p>
+<p>动态创建Object</p>
+<p>FMyObject*NewObj= new FMyObject();</p>
+<p>找蓝图Actor</p>
+<p>UClass<em> aa = LoadClass<uuserwidget>( NULL, TEXT( “Blueprint’/Game/UMG/MainMenu.MainMenu_C’” ) );    (蓝图动态资源加载)<br>static ConstructorHelpers::FObjectFinder<ublueprint> assetObject(TEXT(“/Game/Maps/test.test_C”)); (蓝图构造函数资源加载)<br>if (assetObject.Succeeded())<br>{<br>TestBlueprint = (UClass</ublueprint></uuserwidget></em>)assetObject.Object-&gt;GeneratedClass;<br>}<br>找材质(UObject构造函数资源加载)<br>static ConstructorHelpers::FObjectFinder<umaterial> MaterialAsset(TEXT(“/Game/Maps/MAT.MAT”));<br>if (MaterialAsset.Succeeded())<br>{<br>Material = (UMaterial*)MaterialAsset.Object;<br>}</umaterial></p>
+<p>(UObject动态资源加载)</p>
+<p>LoadObject&lt;&gt;();</p>
+<p>创建动态材质<br>UMaterialInstanceDynamic* MiniMapMatDynamic = UMaterialInstanceDynamic::Create(MiniMapMatInst, nullptr);</p>
+<p>绑定材质属性<br>  MiniMapMatDynamic-&gt;SetTextureParameterValue(FName(“MiniMapTex”), MiniMapRender);</p>
+<p>组件附加</p>
+<p>SphereComp-&gt;SetupAttachment(MeshComp);</p>
+<p>等待销毁时从控制器移除角色控制</p>
+<p>DetachFromControllerPendingDestroy();</p>
+<p>设置角色生命周期</p>
+<p>SetLifeSpan(10.0f);</p>
+<p>获取音乐设备<br>AudioDevice = GEngine-&gt;GetMainAudioDevice();</p>
+<p>推送混音器到设备<br>AudioDevice-&gt;PushSoundMixModifier(SlAiSoundMix);</p>
+<p>使用混音器来设置<br>AudioDevice-&gt;SetSoundMixClassOverride(SlAiSoundMix, SlAiMusicClass, MusicVolume, 1.f, 0.2f, false);</p>
+<p>屏幕大小</p>
+<p>GetWorld()-&gt;GetFirstPlayerController()-&gt;GetViewportSize(ViewportSizeX,ViewportSizeY);<br>重力<br>SetEnableGravity(false);</p>
+<p>随机数</p>
+<p>FRandomStream Stream;</p>
+<p>//产生新的随机种子<br>Stream.GenerateNewSeed();</p>
+<p>int RandIndex = Stream.RandRange(0, ResourcePath.Num() - 1);</p>
+<p>删除AIController</p>
+<p>DetachFromControllerPendingDestroy();</p>
+<p>进入观察者模式</p>
+<p>StartSpectatingOnly();</p>
+<p>复制资源</p>
+<p>UBehaviorTree* myBehaviorTree = DuplicateObject<uobject>(object,NULL)</uobject></p>
+<p>退出游戏</p>
+<p>UKismetSystemLibrary::QuitGame(this, nullptr, EQuitPreference::Quit);</p>
+<p>GEngine-&gt;Exec(GWorld, *FString(“Exit”));</p>
+<p>获取游戏时间</p>
+<p>double MyTime = FPlatformTime::Seconds;</p>
+<p>获取时间</p>
+<p>FDateTime::Now().ToString();<br>链接URL<br>FString TheURL = “xxxxxxxx”;<br>FPlatformProcess::LaunchURL(*TheURL, nullptr, nullptr);</p>
+<p>创建UI   “Media”, “MediaAssets”<br> if (nullptr == MainMenuWidget)<br>{<br>UClass* aa = LoadClass<uuserwidget>( NULL, TEXT( “Blueprint’/Game/UMG/MainMenu.MainMenu_C’” ) );<br>MainMenuWidget = CreateWidget<uuserwidget>( GetWorld()-&gt;GetFirstPlayerController(), aa );<br>}<br>MainMenuWidget-&gt;AddToViewport();<br>//<a href="http://blog.csdn.net/zilisen/article/details/77645500" target="_blank" rel="noopener">http://blog.csdn.net/zilisen/article/details/77645500</a></uuserwidget></uuserwidget></p>
+<p>子弹函数</p>
+<p>#include “Kismet/GameplayStatics.h”</p>
+<p>UGameplayStatics::SuggestProjectileVelocity(<br>this,<br>FireVector,<br>StartLocation,<br>EndLocation,<br>Speed,<br>false,<br>0,<br>0,<br>ESuggestProjVelocityTraceOption::DoNotTrace</p>
+<p>);</p>
+<p>绘制射线</p>
+<p>#include “DrawDebugHelpers.h”</p>
+<p>DrawDebugLine(<br>GetWorld(),<br>StartLocation1,<br>EndLocation1,<br>FColor(255, 0, 0),<br>false,<br>0.0f,<br>0.0f,<br>10.0f</p>
+<p>);</p>
+<p>FCollisionQueryParams QueryParameter = FCollisionQueryParams(“”, false, GetOwner());<br>FHitResult HitResult;<br>GetWorld()-&gt;LineTraceSingleByChannel(<br>HitResult,<br>StartLocation2,<br>EndLocation2,<br>FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),<br>QueryParameter<br>)</p>
+<p>游戏运行中开启作弊等命令</p>
+<p>static int32 DebugWeaponDrawing = 0;<br>FAutoConsoleVariableRef CVARDebugWeaponDrawing(<br>    TEXT(“COOP.DebugWeapons”),<br>    DebugWeaponDrawing,<br>    TEXT(“Draw Debug Lines for Weapons”),<br>    ECVF_Cheat);</p>
+<p>if(DebugWeaponDrawing &gt;0){…}</p>
+<p>计时器</p>
+<p>#include “TimerManager.h”</p>
+<p>FTimerHandle CountdownTimerHandle;<br>GetWorldTimerManager().SetTimer(CountdownTimerHandle, this, &amp;AMytestActor::AdvanceTimer, 1.0f, true);</p>
+<p>FTimerDelegate timeDele ;//  定义调用的委托</p>
+<p>timeDele.BindRaw(this,&amp;xxx:ffff); //绑定函数到委托<br>GWorld-&gt;GetTimerManager().UnPauseTimer(mTimer); //唤醒   GetWorld()<br>float elapsed = GWorld-&gt;GetTimerManager().GetTimerElapsed(mTimer); //已逝时间<br>float elapsed = GWorld-&gt;GetTimerManager().GetTimerRemaining(mTimer); //剩余时间<br>bool isActive = GWorld-&gt;GetTimerManager().IsTimerActive(mTimer); //激活<br>bool isPaused = GWorld-&gt;GetTimerManager().IsTimerPaused(mTimer); //暂停<br>bool isExist = GWorld-&gt;GetTimerManager().TimerExists(mTimer); //存在</p>
+<p>GetWorldTimerManager().ClearTimer(CountdownTimerHandle);//停止计时器</p>
+<p>伤害</p>
+<p>#include&lt;Engine/World.h&gt;</p>
+<p>UGameplayStatics::ApplyRadialDamage(<br>this,<br>ActorDamage,<br>GetActorLocation(),<br>Radius,<br>UDamageType::StaticClass(),<br>TArray&lt;AActor*&gt;()//友军<br>)</p>
+<p>获取IP地址<br>需要在build.cs添加Sockets模块</p>
+<p>#include “SocketSubsystem.h”</p>
+<p>#include “IPAddress.h”<br>FString IpAddr(“NONE”);<br>  bool canBind = false;<br>  TSharedRef<finternetaddr> LocalIp = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)-&gt;GetLocalHostAddr(<em>GLog, canBind);<br>  if (LocalIp-&gt;IsValid())<br>  {<br>IpAddr = LocalIp-&gt;ToString(false); //（如果想附加端口就写 ture）<br>}<br>return IpAddr;<br>添加标签<br>MyActor.Tags.AddUnique(TEXT(“MyTag”));<br>销毁物体<br>MyActor-&gt;Destroy();<br>MyActor-&gt;SetLifeSpan(1);//延迟1S<br>截图<br>FString UMyBlueprintFunctionLibrary::TakeScreenShoot(FString picName, bool bUnique /</em>= true*/)<br>{<br>FString inStr;<br>FString Filename;<br>FScreenshotRequest::RequestScreenshot(picName + “.png”, false, bUnique);<br>FString ResultStr = FScreenshotRequest::GetFilename();<br>ResultStr = FPaths::GetBaseFilename(ResultStr, true);<br>return ResultStr + “.png”;</finternetaddr></p>
+<p>}</p>
+<p>void UMyBlueprintFunctionLibrary::Screenshot(const FString InFilename, bool bInShowUI)<br>{<br>FScreenshotRequest SR = FScreenshotRequest();<br>FString savelocation = FPaths::ConvertRelativePathToFull(FPaths::GameDir());<br>FString filename = savelocation + FString(TEXT(“/Saved/Screenshotss/“)) + InFilename + FString(TEXT(“.png”));<br>SR.RequestScreenshot(filename, bInShowUI, false);<br>}</p>
+<p>写入配置文件，有GEditorIni,GEditorProjectIni,GCompatIni,GlightmassIni,GScalabilityIni,GHardwareIni,GInputIni,GGameIni,GGameUserSettingsIni等(查找CoreGlobals.h)<br>写的数据会写到 YourGame\Saved\Config\Windows\Game.ini 中<br>    const FString WriteSection = “MyCustomSection”;<br>    //String<br>    GConfig-&gt;SetString(<br>        *WriteSection,<br>        TEXT(“key1”),<br>        TEXT(“Hello world”),<br>        GGameIni<br>    );<br>    GConfig-&gt;Flush(false, GGameIni);<br>读取配置<br>if (!GConfig) return 0;<br>float ValueReceived ;<br>GConfig-&gt;GetFloat(<br>TEXT(“MyCustomSection”),<br>TEXT(“key1”),<br>ValueReceived,<br>GGameIni<br>);<br>return ValueReceived;</p>
+<p>服务器：</p>
+<p>网络更新频率</p>
+<p>NetUpdateFrequency = 66.0f;</p>
+<p>MinNetUpdateFrequency = 33.0f;</p>
+<p>枚举字节化</p>
+<p>TEnumAsByte<eenum> AA;</eenum></p>
+<p>让矢量服务器传输不用那么精确</p>
+<p>FVector_NetQuantize   vectorr；</p>
+<p>复制变量到服务器</p>
+<p>UPROPERTY(Replicated)</p>
+<p>在服务器上运行函数</p>
+<p>UFUNCTION(Server, Reliable, WithValidation)//NetMulticast</p>
+<p>void Server();</p>
+<p>void XXX::ServerFire_Implementation(){}</p>
+<p>bool XXX::ServerFire_Validate(){return true;}//完整性检查才用到</p>
+<p>判断是否在服务器上运行（Actor是否主机）</p>
+<p>Role == ROLE_Authority</p>
+<p>判断是否在客户端上运行</p>
+<p>Role &lt; ROLE_Authority</p>
+<p>服务器变量改了通知客户端调用函数</p>
+<p>UPROPERTY(ReplicatedUsing=OnRep_GuardState)</p>
+<p>UFUNCTION()<br>    void OnRep_GuardState();</p>
+<pre><code>规则：所有的客户端  #include &quot;Net/UnrealNetwork.h&quot;
+</code></pre><p>void XXX::GetLifetimeReplicatedProps(TArray&lt; FLifetimeProperty &gt; &amp; OutLifetimeProps) const<br>{<br>    Super::GetLifetimeReplicatedProps(OutLifetimeProps);</p>
+<pre><code>DOREPLIFETIME(XXX（AActor）, 变量);
+</code></pre><p>//DOREPLIFETIME_CONDITION(XXX（AActor）, 变量,COND_SkipOwner);<br>}</p>
+<p>Slate：</p>
+<p>创建slate</p>
+<p>TSharedPtr<class sslaimenuhudwidget> MenuHUDWidget;</class></p>
+<p>ASlAiMenuHUD::ASlAiMenuHUD()<br>{<br>    if (GEngine &amp;&amp; GEngine-&gt;GameViewport) {</p>
+<pre><code>    SAssignNew(MenuHUDWidget, SSlAiMenuHUDWidget);
+
+    GEngine-&gt;GameViewport-&gt;AddViewportWidgetContent(SNew(SWeakWidget).PossiblyNullContent(MenuHUDWidget.ToSharedRef()));
+
+}
+</code></pre><p>}</p>
+<p>播放动画</p>
+<p>MenuAnimation = FCurveSequence();<br>MenuCurve = MenuAnimation.AddCurve(StartDelay, AnimDuration, ECurveEaseFunction::QuadInOut);</p>
+<p>MenuAnimation.Play(this-&gt;AsShared());</p>
+<p>把图片导入ImageSlot</p>
+<p>SOverlay::FOverlaySlot* ImageSlot;</p>
+<p>.Expose(ImageSlot)</p>
+<p>点击事件</p>
+<p>.OnClicked(this, &amp;XXX::OnClick)</p>
+<p>设置锚点</p>
+<p>.Anchors(FAnchors(0.f))</p>
+<p>创建按钮</p>
+<ul>
+<li>SOverlay::Slot()</li>
+</ul>
+<p>[</p>
+<p>SNew(SButton)</p>
+<p>]</p>
+<p>布局</p>
+<p>.HAlign(HAlign_Left)<br>.VAlign(VAlign_Top)</p>
+<p>创建外部调用Slate</p>
+<p>TSharedPtr<scheckbox> ZhCheckBox;//.h</scheckbox></p>
+<p>SAssignNew(ZhCheckBox,SCheckBox)</p>
+<p>转换为共享指针</p>
+<p>makeshareable(XX);</p>
+<p>获取声音资源文件</p>
+<p>FSlateSound.GetResourceObject()</p>
+<p>FGeometry里面保存了Widget位置大小等属性</p>
+<p>在鼠标事件中获取鼠标相对widget的位置</p>
+<p>MyGeometry.AbsoluteToLocal(MouseEvent.GetScreenSpacePosition());</p>
+<p>获取DPI</p>
+<p>UWidgetLayoutLibrary::GetViewportScale(GEngine-&gt;GameViewport);</p>
+<p>获取Widget之间的相对位置</p>
+<p>FVector2D StartPos = WidgetA.AbsoluteToLocal(WidgetB-&gt;GetCachedGeometry().AbsolutePosition);</p>
+<p>获取资源</p>
+<p>FSlateApplication::Get().</p>
+<p>AI行为树：</p>
+<p>黑板:</p>
+<p>#include “BehaviorTree/Blackboard/BlackboardKeyType_Enum.h”</p>
+<p>#include “BehaviorTree/Blackboard/BlackboardKeyType_Vector.h”</p>
+<p>#include “BehaviorTree/Blackboard/BlackboardKeyType_Float.h”</p>
+<p>#include “BehaviorTree/Blackboard/BlackboardKeyType_Object.h”</p>
+<p>#include “BehaviorTree/Blackboard/BlackboardKeyType_Bool.h”</p>
+<p>void UEnemyBlackboard::PostLoad()<br>{<br>    Super::PostLoad();</p>
+<pre><code>//目的地
+FBlackboardEntry Destination;
+Destination.EntryName = FName(&quot;Destination&quot;);
+UBlackboardKeyType_Vector* DestinationKeyType = NewObject&lt;UBlackboardKeyType_Vector&gt;();
+Destination.KeyType = DestinationKeyType;
+
+//敌人状态
+FBlackboardEntry EnemyState;
+EnemyState.EntryName = FName(&quot;EnemyState&quot;);
+UBlackboardKeyType_Enum* EnemyStateKeyType = NewObject&lt;UBlackboardKeyType_Enum&gt;();
+EnemyStateKeyType-&gt;EnumType = FindObject&lt;UEnum&gt;(ANY_PACKAGE, *FString(&quot;EEnemyAIState&quot;), true);
+EnemyStateKeyType-&gt;EnumName = FString(&quot;EEnemyAIState&quot;);
+EnemyState.KeyType = EnemyStateKeyType;
+</code></pre><p>}</p>
+<p>UBTDecorator:</p>
+<p>//对应的就是蓝图节点的PerformConditionCheck<br>virtual bool CalculateRawConditionValue(UBehaviorTreeComponent&amp; OwnerComp, uint8* NodeMemory) const override;</p>
+<p>使用导航系统获取随机点<br>UNavigationSystem::K2_GetRandomReachablePointInRadius(SEController, ChaseOrigin, DesLoc, ChaseRadius);</p>
+<p>重写task执行函数<br>virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent&amp; OwnerComp, uint8* NodeMemory) override;</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/Blog/tags/UE4-API/" rel="tag"># UE4_API</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Blog/2019/04/12/UE4GitFile/" rel="next" title="UE4 Git版本管理需要忽略的文件">
+                <i class="fa fa-chevron-left"></i> UE4 Git版本管理需要忽略的文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Blog/2019/04/14/KuGouMini/" rel="prev" title="免费下载音乐的小工具KuGouMini">
+                免费下载音乐的小工具KuGouMini <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Ning+</p>
+              <div class="site-description motion-element" itemprop="description">NingStudio Blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/Blog/archives/">
+                
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">Kategorien</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">schlagwörter</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ning+</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Design – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/Blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/Blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/Blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/Blog/js/utils.js?v=7.1.0"></script>
+
+  <script src="/Blog/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/Blog/js/schemes/muse.js?v=7.1.0"></script>
+
+
+
+  
+  <script src="/Blog/js/scrollspy.js?v=7.1.0"></script>
+<script src="/Blog/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/Blog/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
