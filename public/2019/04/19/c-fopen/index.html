@@ -96,16 +96,18 @@
 
 
 
-  <meta name="description" content="NingStudio Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NingStudio">
-<meta property="og:url" content="http://ningstudio.cn/Blog/categories/小工具/index.html">
+  <meta name="description" content="1.fopen改成了fopen_s后会产生更多错误比较麻烦；2.可以在程序前面加上 _CRT_SECURE_NO_WARNINGS 的宏定义，或设置 项目（Project） -&amp;gt; 属性（Properties） -&amp;gt; C/C++ -&amp;gt; 预处理器（Preprocessor） -&amp;gt; 预处理器定中添加 _CRT_SECURE_NO_WARNINGS 这个预定义；宏定义1#defin">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c++ fopen 编译报错解决">
+<meta property="og:url" content="http://ningstudio.cn/Blog/2019/04/19/c-fopen/index.html">
 <meta property="og:site_name" content="NingStudio">
-<meta property="og:description" content="NingStudio Blog">
+<meta property="og:description" content="1.fopen改成了fopen_s后会产生更多错误比较麻烦；2.可以在程序前面加上 _CRT_SECURE_NO_WARNINGS 的宏定义，或设置 项目（Project） -&amp;gt; 属性（Properties） -&amp;gt; C/C++ -&amp;gt; 预处理器（Preprocessor） -&amp;gt; 预处理器定中添加 _CRT_SECURE_NO_WARNINGS 这个预定义；宏定义1#defin">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-19T09:15:33.726Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NingStudio">
-<meta name="twitter:description" content="NingStudio Blog">
+<meta name="twitter:title" content="c++ fopen 编译报错解决">
+<meta name="twitter:description" content="1.fopen改成了fopen_s后会产生更多错误比较麻烦；2.可以在程序前面加上 _CRT_SECURE_NO_WARNINGS 的宏定义，或设置 项目（Project） -&amp;gt; 属性（Properties） -&amp;gt; C/C++ -&amp;gt; 预处理器（Preprocessor） -&amp;gt; 预处理器定中添加 _CRT_SECURE_NO_WARNINGS 这个预定义；宏定义1#defin">
 
 
 
@@ -113,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://ningstudio.cn/Blog/categories/小工具/">
+  <link rel="canonical" href="http://ningstudio.cn/Blog/2019/04/19/c-fopen/">
 
 
 
@@ -123,7 +125,7 @@
   };
 </script>
 
-  <title>Kategorie: 小工具 | NingStudio</title>
+  <title>c++ fopen 编译报错解决 | NingStudio</title>
   
 
 
@@ -171,7 +173,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -252,19 +254,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -289,57 +278,192 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>小工具<small>Kategorie</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
+
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://ningstudio.cn/Blog/Blog/2019/04/19/c-fopen/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ning+">
+      <meta itemprop="description" content="NingStudio Blog">
+      <meta itemprop="image" content="/Blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="NingStudio">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/Blog/2019/04/14/KuGouMini/" itemprop="url">
-            
-              <span itemprop="name">免费下载音乐的小工具KuGouMini</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">c++ fopen 编译报错解决
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-14T15:35:03+08:00" content="2019-04-14">
-          04-14
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Erstellt: 2019-04-19 17:12:06 / Geändert am: 17:15:33" itemprop="dateCreated datePublished" datetime="2019-04-19T17:12:06+08:00">2019-04-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/Blog/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>1.fopen改成了fopen_s后会产生更多错误比较麻烦；<br>2.可以在程序前面加上 _CRT_SECURE_NO_WARNINGS 的宏定义，或设置 项目（Project） -&gt; 属性（Properties） -&gt; C/C++ -&gt; 预处理器（Preprocessor） -&gt; 预处理器定中添加 _CRT_SECURE_NO_WARNINGS 这个预定义；<br><figure class="highlight plain"><figcaption><span>宏定义</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define _CRT_SECURE_NO_WARNINGS</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/Blog/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Blog/2019/04/14/KuGouMini/" rel="next" title="免费下载音乐的小工具KuGouMini">
+                <i class="fa fa-chevron-left"></i> 免费下载音乐的小工具KuGouMini
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -576,6 +700,10 @@
 
 
   
+  <script src="/Blog/js/scrollspy.js?v=7.1.0"></script>
+<script src="/Blog/js/post-details.js?v=7.1.0"></script>
+
+
 
   
 
@@ -591,6 +719,8 @@
 
   
 
+
+  
 
 
   
