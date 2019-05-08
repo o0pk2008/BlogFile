@@ -5,6 +5,10 @@ tags: UE4_Material
 categories: UnrealEngine4
 ---
 ![最终效果](UE4_01.jpg)
+
+材质蓝图
+<iframe frameborder="no" border="0" width="100%" height="600" src="https://blueprintue.com/render/7ideosxm" scrolling="no"></iframe>
+
 {% codeblock 材质代码 %}
 Begin Object Class=/Script/UnrealEd.MaterialGraphNode_Root Name="MaterialGraphNode_Root_0"
    Material=PreviewMaterial'"/Engine/Transient.M_Blue"'
