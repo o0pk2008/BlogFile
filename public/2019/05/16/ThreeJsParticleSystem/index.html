@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="其实UE4开启WebGL很简单只需要添加已下代码：WebBrowserSingleton.cppWebGL123//Ning+ 20190430BrowserSettings.plugins = STATE_ENABLED;BrowserSettings.webgl = STATE_ENABLED; CEFBrowserApp.cppWebGL123//Ning+ 20190430CommandL">
-<meta name="keywords" content="UE4">
+  <meta name="description" content="因为最近项目需要基于ThreeJS做很多粒子特效，感觉UE4的粒子发射器做这种效果会比较方便，所以就以UE4粒子发射器的思路手写了一个ThreeJS的粒子发射器，思路很简单：1.生产粒子；2.管理粒子；3.粒子运动；4.粒子发射；后期还可以根据需要扩展很多其他的功能效果；代码如下：ThreeJsParticleSystem By_Ning+12345678910111213141516171819">
+<meta name="keywords" content="经验积累">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UE4_开启WebGL与卡死问题解决">
-<meta property="og:url" content="http://ningstudio.cn/Blog/2019/04/25/UE4-WebGL/index.html">
+<meta property="og:title" content="自己写的一个ThreeJS的粒子发射器">
+<meta property="og:url" content="http://ningstudio.cn/Blog/2019/05/16/ThreeJsParticleSystem/index.html">
 <meta property="og:site_name" content="NingStudio">
-<meta property="og:description" content="其实UE4开启WebGL很简单只需要添加已下代码：WebBrowserSingleton.cppWebGL123//Ning+ 20190430BrowserSettings.plugins = STATE_ENABLED;BrowserSettings.webgl = STATE_ENABLED; CEFBrowserApp.cppWebGL123//Ning+ 20190430CommandL">
+<meta property="og:description" content="因为最近项目需要基于ThreeJS做很多粒子特效，感觉UE4的粒子发射器做这种效果会比较方便，所以就以UE4粒子发射器的思路手写了一个ThreeJS的粒子发射器，思路很简单：1.生产粒子；2.管理粒子；3.粒子运动；4.粒子发射；后期还可以根据需要扩展很多其他的功能效果；代码如下：ThreeJsParticleSystem By_Ning+12345678910111213141516171819">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-08T08:20:27.917Z">
+<meta property="og:updated_time" content="2019-05-16T07:57:17.281Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UE4_开启WebGL与卡死问题解决">
-<meta name="twitter:description" content="其实UE4开启WebGL很简单只需要添加已下代码：WebBrowserSingleton.cppWebGL123//Ning+ 20190430BrowserSettings.plugins = STATE_ENABLED;BrowserSettings.webgl = STATE_ENABLED; CEFBrowserApp.cppWebGL123//Ning+ 20190430CommandL">
+<meta name="twitter:title" content="自己写的一个ThreeJS的粒子发射器">
+<meta name="twitter:description" content="因为最近项目需要基于ThreeJS做很多粒子特效，感觉UE4的粒子发射器做这种效果会比较方便，所以就以UE4粒子发射器的思路手写了一个ThreeJS的粒子发射器，思路很简单：1.生产粒子；2.管理粒子；3.粒子运动；4.粒子发射；后期还可以根据需要扩展很多其他的功能效果；代码如下：ThreeJsParticleSystem By_Ning+12345678910111213141516171819">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://ningstudio.cn/Blog/2019/04/25/UE4-WebGL/">
+  <link rel="canonical" href="http://ningstudio.cn/Blog/2019/05/16/ThreeJsParticleSystem/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>UE4_开启WebGL与卡死问题解决 | NingStudio</title>
+  <title>自己写的一个ThreeJS的粒子发射器 | NingStudio</title>
   
 
 
@@ -294,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://ningstudio.cn/Blog/Blog/2019/04/25/UE4-WebGL/">
+    <link itemprop="mainEntityOfPage" href="http://ningstudio.cn/Blog/Blog/2019/05/16/ThreeJsParticleSystem/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ning+">
@@ -311,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">UE4_开启WebGL与卡死问题解决
+          <h1 class="post-title" itemprop="name headline">自己写的一个ThreeJS的粒子发射器
 
               
             
@@ -337,24 +337,12 @@
                 
               
 
-              <time title="Erstellt: 2019-04-25 14:54:04" itemprop="dateCreated datePublished" datetime="2019-04-25T14:54:04+08:00">2019-04-25</time>
+              <time title="Erstellt: 2019-05-16 15:48:03 / Geändert am: 15:57:17" itemprop="dateCreated datePublished" datetime="2019-05-16T15:48:03+08:00">2019-05-16</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Bearbeitet am</span>
-                
-                <time title="Geändert am: 2019-05-08 16:20:27" itemprop="dateModified" datetime="2019-05-08T16:20:27+08:00">2019-05-08</time>
               
             
           </span>
@@ -371,7 +359,7 @@
                 <span class="post-meta-item-text">in</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/Blog/categories/UE4/" itemprop="url" rel="index"><span itemprop="name">UE4</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/Blog/categories/ThreeJS/" itemprop="url" rel="index"><span itemprop="name">ThreeJS</span></a></span>
 
                 
                 
@@ -406,10 +394,7 @@
       
 
       
-        <p>其实UE4开启WebGL很简单只需要添加已下代码：<br>WebBrowserSingleton.cpp<br><figure class="highlight plain"><figcaption><span>WebGL</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//Ning+ 20190430</span><br><span class="line">BrowserSettings.plugins = STATE_ENABLED;</span><br><span class="line">BrowserSettings.webgl = STATE_ENABLED;</span><br></pre></td></tr></table></figure></p>
-<p>CEFBrowserApp.cpp<br><figure class="highlight plain"><figcaption><span>WebGL</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//Ning+ 20190430</span><br><span class="line">CommandLine-&gt;AppendSwitch(&quot;enable-gpu&quot;);</span><br><span class="line">CommandLine-&gt;AppendSwitch(&quot;enable-gpu-compositing&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>性能优化,具体看自己需要添加<br><figure class="highlight plain"><figcaption><span>WebGL</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//Ning+ 20190430</span><br><span class="line">command_line-&gt;AppendSwitch(&quot;enable-native-gpu-memory-buffers&quot;);</span><br><span class="line">command_line-&gt;AppendSwitch(&quot;enable-one-copy&quot;);</span><br><span class="line">command_line-&gt;AppendSwitch(&quot;enable-viewport&quot;);</span><br><span class="line">command_line-&gt;AppendSwitch(&quot;no-proxy-server&quot;);</span><br><span class="line">command_line-&gt;AppendSwitch(&quot;no-sandbox&quot;);</span><br><span class="line">command_line-&gt;AppendSwitchWithValue(&quot;num-raster-threads&quot;, &quot;4&quot;);</span><br><span class="line">command_line-&gt;AppendSwitch(&quot;renderer&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>网上的教程通常就到这里，当你完成这些步骤后确实可以加载WebGL，但是不到几分钟就会卡住；<br>接下来关键点来了，如何解决这个BUG？<br>方法就是利用VS的调试工具，当UE4卡住时候查看堆栈，定位到CEF消息循环事件，将此屏蔽，然后自定义消息循环事件，利用UE4的Tick事件驱动；这样才算是真正打开了UE4的WebGL功能；</p>
+        <p>因为最近项目需要基于ThreeJS做很多粒子特效，感觉UE4的粒子发射器做这种效果会比较方便，所以就以UE4粒子发射器的思路手写了一个ThreeJS的粒子发射器，思路很简单：<br>1.生产粒子；<br>2.管理粒子；<br>3.粒子运动；<br>4.粒子发射；<br>后期还可以根据需要扩展很多其他的功能效果；<br>代码如下：<br><figure class="highlight plain"><figcaption><span>ThreeJsParticleSystem By_Ning+</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">//生产粒子 Ning+</span><br><span class="line">function GreatSprite() &#123;</span><br><span class="line">    var textureLoader = new THREE.TextureLoader();</span><br><span class="line">    var mapC = textureLoader.load(&quot;img/LineSprite4.png&quot;);</span><br><span class="line">    var materialC = new THREE.SpriteMaterial(&#123;</span><br><span class="line">        map: mapC,</span><br><span class="line">        transparent: true,</span><br><span class="line">        opacity: 0, //初始化0-1</span><br><span class="line">        alphaTest: 0.2</span><br><span class="line">        // color: 0xffffff,</span><br><span class="line">        // fog: true</span><br><span class="line">    &#125;);</span><br><span class="line">    var sprite = new THREE.Sprite(materialC);</span><br><span class="line">    sprite.scale.set(0.8, 0.8, 1);</span><br><span class="line">    return (sprite);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//管理粒子 Ning+</span><br><span class="line">var SpriteGroup = new THREE.Group();</span><br><span class="line">function GreatSpriteMany() &#123;</span><br><span class="line">    SpriteGroup = new THREE.Group();</span><br><span class="line">    for (var i = 7; i &gt;= 0; i--) &#123;</span><br><span class="line">        obj = GreatSprite();</span><br><span class="line">        obj.position.set(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1);</span><br><span class="line">        SpriteGroup.add(obj);</span><br><span class="line">    &#125;</span><br><span class="line">    scene.add(SpriteGroup);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//粒子运动 Ning+</span><br><span class="line">var TweenSprite;</span><br><span class="line">function TweenSprite(obj) &#123;</span><br><span class="line">    TweenSpriteUP = new TWEEN.Tween(obj.position)</span><br><span class="line">        .to(&#123;</span><br><span class="line">            x: obj.position.x,</span><br><span class="line">            y: 2,</span><br><span class="line">            z: obj.position.z</span><br><span class="line">        &#125;, 6000)</span><br><span class="line">        .easing(TWEEN.Easing.Cubic.Out);</span><br><span class="line">    TweenSpriteUP.start();</span><br><span class="line">    TweenSpriteUP.onComplete(function() &#123;</span><br><span class="line">        scene.remove(obj);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    for (var i = obj.children.length - 1; i &gt;= 0; i--) &#123;</span><br><span class="line">        let objMaterial = obj.children[i].material;</span><br><span class="line">        TweenSpriteOpacity1 = new TWEEN.Tween(objMaterial)</span><br><span class="line">            .to(&#123;</span><br><span class="line">                opacity: 0.8</span><br><span class="line">            &#125;, 1000)</span><br><span class="line">            .easing(TWEEN.Easing.Cubic.Out);</span><br><span class="line"></span><br><span class="line">        TweenSpriteOpacity1.start();</span><br><span class="line">        TweenSpriteOpacity1.onComplete(function() &#123;</span><br><span class="line">            TweenSpriteOpacity2 = new TWEEN.Tween(objMaterial)</span><br><span class="line">                .to(&#123;</span><br><span class="line">                    opacity: 0</span><br><span class="line">                &#125;, 1000)</span><br><span class="line">                .easing(TWEEN.Easing.Cubic.Out);</span><br><span class="line">            TweenSpriteOpacity2.start();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//粒子发射 Ning+</span><br><span class="line">function CreateEmitter() &#123;</span><br><span class="line">    setInterval(&quot;GreatSpriteNew()&quot;, &quot;500&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -433,7 +418,7 @@
       
         <div class="post-tags">
           
-            <a href="/Blog/tags/UE4/" rel="tag"># UE4</a>
+            <a href="/Blog/tags/经验积累/" rel="tag"># 经验积累</a>
           
         </div>
       
@@ -446,8 +431,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Blog/2019/04/25/DblclickMacro/" rel="next" title="鼠标双击事件宏">
-                <i class="fa fa-chevron-left"></i> 鼠标双击事件宏
+              <a href="/Blog/2019/05/16/CircularLayout/" rel="next" title="拓扑圆形布局算法">
+                <i class="fa fa-chevron-left"></i> 拓扑圆形布局算法
               </a>
             
           </div>
@@ -455,10 +440,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/Blog/2019/05/16/CircularLayout/" rel="prev" title="拓扑圆形布局算法">
-                拓扑圆形布局算法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
